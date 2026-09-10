@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
     import { BitmapShader, Canvas, CanvasView, Matrix, Paint, Path, Style, TileMode } from '@nativescript-community/ui-canvas';
-    import { ApplicationSettings, ImageSource, Screen, TouchGestureEventData, Utils } from '@nativescript/core';
+    import { ApplicationSettings, ImageSource, TouchGestureEventData, Utils } from '@nativescript/core';
     import { debounce } from '@nativescript/core/utils';
     import { QRCodeData, QuadPoint, Quads } from 'plugin-nativeprocessor';
     import { onDestroy } from 'svelte';
     import { NativeViewElementNode } from '@nativescript-community/svelte-native/dom';
-    import { MAGNIFIER_SENSITIVITY, SETTINGS_MAGNIFIER_SENSITIVITY } from '~/utils/constants';
+    import { IMAGE_DECODE_HEIGHT, MAGNIFIER_SENSITIVITY, SETTINGS_MAGNIFIER_SENSITIVITY } from '~/utils/constants';
     import { loadImage, recycleImages } from '~/utils/images';
     import { showError } from '@shared/utils/showError';
     import { createEventDispatcher } from '@shared/utils/svelte/ui';
@@ -14,7 +14,8 @@
     import { colorTheme, isEInk } from '~/helpers/theme';
     const padding = 20;
     const ZOOOM_GLASS_SIZE = 50;
-    const ZOOM_IMAGE_MAX_SIZE = Math.max(Screen.mainScreen.widthDIPs, Screen.mainScreen.heightDIPs);
+    // in pixels: it is used as a decode size, both for `loadImage` and for the image view
+    const ZOOM_IMAGE_MAX_SIZE = IMAGE_DECODE_HEIGHT;
 
     declare namespace svelteNative.JSX {
         interface ViewAttributes {
