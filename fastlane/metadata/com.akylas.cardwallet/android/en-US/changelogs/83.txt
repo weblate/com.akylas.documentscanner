@@ -1,0 +1,14 @@
+Features:
+- delete original images and show real storage usage
+
+Bug fixes:
+- simplify slice, restrict workflow token permissions
+- show biometric errors
+- make capture confirmation button a filled fab
+- error while to trying to show PDF settings
+- align OCR text layer with the scanned image
+- handle pages without an original image
+- reduce app size quite a lot!
+- use store-safe markup in app descriptions
+- apply color filters when exporting to PDF on android
+- decode the crop view image at scree
