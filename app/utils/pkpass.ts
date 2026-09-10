@@ -1471,7 +1471,7 @@ async function renderFullLayout({
         if (imageData.width) {
             width = imageData.width;
             if (typeof width === 'string') {
-                width = PercentLength.toDevicePixels(PercentLength.parse(width));
+                width = PercentLength.toDevicePixels(PercentLength.parse(width), NaN, NaN);
             }
             scale = width / imageSource.width;
         }
@@ -1479,7 +1479,7 @@ async function renderFullLayout({
         if (imageData.height) {
             height = imageData.height;
             if (typeof height === 'string') {
-                height = PercentLength.toDevicePixels(PercentLength.parse(height));
+                height = PercentLength.toDevicePixels(PercentLength.parse(height), NaN, NaN);
             }
             if (!imageData.width) {
                 scale = height / imageSource.height;

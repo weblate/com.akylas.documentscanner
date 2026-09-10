@@ -54,6 +54,15 @@ if(DEFINED WITH_QRCODE)
     target_link_libraries(${TARGET} ZXing::ZXing)
 endif(DEFINED WITH_QRCODE)
 
+# Development only. Hides SVE from the CPU detection done inside the library so that
+# KleidiCV uses its NEON code paths: Android emulators on Apple Silicon advertise SVE2
+# in HWCAP although the host CPU cannot execute a single SVE instruction.
+# See hwcap_sve.cpp
+option(DISABLE_SVE "hide SVE from CPU detection, for Android emulators on Apple Silicon" OFF)
+if(DISABLE_SVE)
+    add_definitions(-DDISABLE_SVE)
+endif(DISABLE_SVE)
+
 target_link_libraries(${TARGET} log jnigraphics z)
 
 # Specifies libraries CMake should link to your target library. You
@@ -70,3 +79,12 @@ else()
 endif()
 
 target_link_libraries(${TARGET} tesseract leptonica pngx jpeg -fopenmp -static-openmp)
+
+
+target_compile_options(${TARGET} PRIVATE
+    -fvisibility=hidden -fvisibility-inlines-hidden
+    -ffunction-sections -fdata-sections)
+target_link_options(${TARGET} PRIVATE
+    -Wl,--exclude-libs,ALL
+    -Wl,--gc-sections
+    -Wl,--icf=all)
